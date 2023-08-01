@@ -1,0 +1,42 @@
+.wrapper {
+    width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+.form { 
+    display:inline-block;
+    text-align: left;
+}
+
+.formInput {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  
+}
+.inputLabel {
+    color: blue;
+    font-weight: 700;
+  
+}
+.contactFormBtn {
+    width: 600px;
+    margin: auto;
+    text-align: center;
+}
+.addContactBtn {
+    font-size: 15px;
+    font-weight: 700;
+    height: 40px;
+    width: 120px;
+    margin: 10px;
+    background-color: aqua;
+    border-radius: 5px;
+    border: none;
+    
+}
+
+.addContactBtn:hover {
+    cursor: pointer;
+}

@@ -1,0 +1,51 @@
+.wrapper {
+    width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+.form { 
+    display:inline-block;
+    text-align: left;
+}
+
+.formInput {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  
+}
+.inputLabel {
+    color: rgb(0, 60, 255);
+    font-weight: 700;
+  
+}
+
+.contact {
+    display: flex;
+    text-align: left;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.deleteBtn {
+    background-color: bisque;
+    margin-left: 20px;
+}
+
+.deleteBtn:hover {
+    cursor: pointer;
+}
+
+.clearBtn {
+    padding: 0;
+    border: 2px solid red;
+    border-radius: 5px;
+    color: red;
+    width: 25px;
+    height: 25px;;
+}
+
+.clearBtn:hover {
+    cursor: pointer;
+}
