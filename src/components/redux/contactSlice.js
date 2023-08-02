@@ -1,45 +1,42 @@
-// redux/contactSlice.js
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { nanoid } from 'nanoid';
+import axios from 'axios';
 
-// Initial state
-export const getLocalStorage = () => {
-  try {
-    const serializedContacts = localStorage.getItem('contacts');
-    if (serializedContacts === null) {
-      return undefined;
-    }
-    return JSON.parse(serializedContacts);
-  } catch (error) {
-    console.error('Error getting contacts from local storage:', error);
-    return undefined;
-  }
-};
-
-const initialState = getLocalStorage() || [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
+const API_URL = 'https://64c925c9b2980cec85c1fa34.mockapi.io/contacts';
 
 // Actions
+
 export const addContact = createAction('contact/add');
 export const deleteContact = createAction('contact/delete');
-export const updateLocalStorage = (contacts) => {
-  try {
-    const serializedContacts = JSON.stringify(contacts);
-    localStorage.setItem('contacts', serializedContacts);
-  } catch (error) {
-    console.error('Error saving contacts to local storage:', error);
-  }
+
+
+export const fetchContacts = () => {
+  return axios.get(API_URL)
+    .then(response => response.data)
+    .catch(error => {
+      console.error('Error fetching contacts from API:', error);
+      return [];
+    });
 };
 
+export const saveContact = (contact) => {
+  return axios.post(API_URL, contact)
+    .then(response => response.data)
+    .catch(error => {
+      console.error('Error saving contact to API:', error);
+    });
+};
 
+export const deleteContactFromAPI = (id) => {
+  return axios.delete(`${API_URL}/${id}`)
+    .catch(error => {
+      console.error('Error deleting contact from API:', error);
+    });
+};
 
 // Reducer
-const contactReducer = createReducer(initialState, (builder) => {
+const contactReducer = createReducer([], (builder) => {
   builder
     .addCase(addContact, (state, action) => {
       const newContact = action.payload;
@@ -49,12 +46,23 @@ const contactReducer = createReducer(initialState, (builder) => {
       if (existedContact) {
         Notify.warning('This contact already exists');
       } else {
-        state.push({ ...newContact, id: nanoid() });
+        saveContact(newContact)
+          .then(savedContact => {
+            state.push({ ...savedContact, id: nanoid() });
+          })
+          .catch(error => {
+            console.error('Error saving contact to API:', error);
+          });
       }
     })
     .addCase(deleteContact, (state, action) => {
       const contactId = action.payload;
-      return state.filter((contact) => contact.id !== contactId);
+      state = state.filter((contact) => contact.id !== contactId);
+      deleteContactFromAPI(contactId); // Delete contact from API
+      return state;
+    })
+    .addCase('contact/set', (state, action) => {
+      return action.payload;
     });
 });
 
