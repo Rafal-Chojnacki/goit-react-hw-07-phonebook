@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux'; // Import useSelector
 import css from './contactList.module.css';
 
-const ContactList = ({ contacts, deleteContact }) => {
+const ContactList = ({ deleteContact }) => {
   const [filter, setFilter] = useState('');
 
-  const handleChange = e => {
+  const contacts = useSelector((state) => state.contacts); // Use useSelector to get contacts from Redux store
+
+  const handleChange = (e) => {
     const { value } = e.target;
     setFilter(value);
   };
@@ -14,7 +17,7 @@ const ContactList = ({ contacts, deleteContact }) => {
       return contacts;
     }
     return contacts.filter(
-      contact => contact.name.toLowerCase().indexOf(filter) >= 0
+      (contact) => contact.name.toLowerCase().indexOf(filter) >= 0
     );
   };
 
