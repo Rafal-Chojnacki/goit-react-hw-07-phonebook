@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux'; // Import useSelector
+import { useSelector } from 'react-redux';
 import css from './contactList.module.css';
 
 const ContactList = ({ deleteContact }) => {
   const [filter, setFilter] = useState('');
 
-  const contacts = useSelector((state) => state.contacts); // Use useSelector to get contacts from Redux store
+  const contacts = useSelector((state) => state.contacts);
 
   const handleChange = (e) => {
     const { value } = e.target;

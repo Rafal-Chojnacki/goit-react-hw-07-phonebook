@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const API_URL = 'https://64c925c9b2980cec85c1fa34.mockapi.io/contacts';
 
-// Async Thunk to fetch contacts from the API
+
 export const fetchContacts = createAsyncThunk('contact/fetchContacts', async () => {
   try {
     const response = await axios.get(API_URL);
@@ -16,7 +16,6 @@ export const fetchContacts = createAsyncThunk('contact/fetchContacts', async () 
   }
 });
 
-// Async Thunk to save a new contact to the API
 export const saveContact = createAsyncThunk('contact/saveContact', async (contact) => {
   try {
     const response = await axios.post(API_URL, contact);
@@ -27,7 +26,6 @@ export const saveContact = createAsyncThunk('contact/saveContact', async (contac
   }
 });
 
-// Async Thunk to delete a contact from the API
 export const deleteContact = createAsyncThunk('contact/deleteContact', async (contactId) => {
   try {
     await axios.delete(`${API_URL}/${contactId}`);
